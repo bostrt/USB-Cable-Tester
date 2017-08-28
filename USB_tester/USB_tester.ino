@@ -19,14 +19,13 @@ https://gist.github.com/JChristensen/5616922
 int leds[] = {3,0,1,2};
 void setup() 
 {
-  for (int i=0; i<4; i++)
-  {
-    pinMode(leds[i], OUTPUT);
-    digitalWrite(leds[i], HIGH);
-    delay(200);
-    digitalWrite(leds[i], LOW);
-    delay(200);
-  }
+  // LED Test
+  flashup(false);
+  flashdown(false);
+  flashup(false);
+  flashdown(false);
+
+  flashup(true);
   die_until_reset();
 }
 
@@ -46,5 +45,27 @@ void die_until_reset()
   MCUCR = mcucr1;                           //  this code has no effect
   MCUCR = mcucr2;
   sleep_cpu();
+}
+
+void flashup(bool slow) {
+  for (int i=0; i<4; i++)
+  {
+    pinMode(leds[i], OUTPUT);
+    digitalWrite(leds[i], HIGH);
+    if(slow) delay(100); else delay(5);
+    digitalWrite(leds[i], LOW);
+    if (slow) delay(100);
+  }
+}
+
+void flashdown(bool slow) {
+  for (int i=3; i>=0; i--)
+  {
+    pinMode(leds[i], OUTPUT);
+    digitalWrite(leds[i], HIGH);
+    if (slow) delay(100); else delay(5);
+    digitalWrite(leds[i], LOW);
+    if (slow) delay(100);
+  }  
 }
 
